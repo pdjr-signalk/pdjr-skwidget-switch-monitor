@@ -5,8 +5,6 @@ class SwitchMonitorWidget {
   }
 
   constructor(signalkClient, container) {
-    if ((options) && (options.debug)) console.log("SwitchMonitor(%s,%s)...", signalkClient, JSON.stringify(options));
-
     this.signalkClient = signalkClient;
     this.switchmonitorwidget = null;
     this.switchbanks = { "misc": [] };
@@ -22,16 +20,15 @@ class SwitchMonitorWidget {
         var sbmatch = key.match(/^(.+)\.(.+)$/);
         if ((sbmatch) && (sbmatch.length == 3)) {
           if (!this.switchbanks.hasOwnProperty('' + sbmatch[1])) this.switchbanks['' + sbmatch[1]] = [];
-            this.switchbanks['' + sbmatch[1]].push(key);
-          } else {
-            this.switchbanks['misc'].push(key);
-          }
-        });
+          this.switchbanks['' + sbmatch[1]].push(key);
+        } else {
+          this.switchbanks['misc'].push(key);
+        }
+      });
 
-        this.switchmonitorwidget = PageUtils.createElement('div', 'switchmonitorwidget', null, null, this.container);
-        Object.keys(this.switchbanks).forEach(switchbank => {
-          switchmonitorwidget.appendChild(this.makeSwitchBank(switchbank, this.switchbanks[switchbank]));
-        });
+      this.switchmonitorwidget = PageUtils.createElement('div', 'switchmonitorwidget', null, null, container);
+      Object.keys(this.switchbanks).forEach(switchbank => {
+        this.switchmonitorwidget.appendChild(this.makeSwitchBank(switchbank, this.switchbanks[switchbank]));
       });
     });
   }
