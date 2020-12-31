@@ -1,0 +1,88 @@
+#switchbankmonitor {
+  width: 100%;
+  height: 100%;
+}
+.switchbank-container {
+  padding-top: 10px;
+  display: block;
+}
+.switchbank-channel-cell {
+  width: 100px;
+  height: 50px;
+  font-size: 75%;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  opacity: 0.7;
+  border: 1px black solid;
+  background-color: orange;
+  color: black;
+  display: table-cell;
+  position: relative;
+}
+span.key {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 75%;
+  padding: 1px;
+  pointer-events: none;
+}
+.switchbank-channel-cell .name {
+  ponter-events: none;
+}
+.switchbank-channel-cell.artifact {
+  display: none !important;
+}
+.switchbank-channel-cell.switch {
+  background-color: green !important;
+}
+.switchbank-table {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.switchbank-table-header {
+  width: 90px;
+  min-width: 90px;
+  height: 60px;
+  background-color: #101010;
+  color: grey;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 80%;
+  font-weight: bold;
+}
+.switchbank-table-channel-container {
+  background-color: #101010;
+  vertical-align: middle;
+  padding: 5px;
+  padding-right: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.switchbank-channel-cell.on {
+  opacity: 1;
+  color: black;
+}
+.switchbank-channel-cell.expired {
+  background-color: grey !important;
+}
+.table {
+  display: table;
+}
+.table-row {
+  display: table-row;
+}
+.table-cell {
+  display: table-cell;
+}
+.timeout {
+  //background-image: none !important;
+  animation: timeoutBG 5s ease-in !important;
+}
+@keyframes timeoutBG {
+  0% { background-color: currentColor; }
+  50% { background-color: currentColor; }
+  100% { background-color: grey; }
+}
