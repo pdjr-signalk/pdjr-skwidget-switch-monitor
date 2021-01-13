@@ -9,27 +9,24 @@ class SwitchMonitorWidget {
     this.switchmonitorwidget = null;
     this.switchbanks = { "misc": [] };
 
-    signalkClient.getEndpoints(endpoints => {
-      var switchKeys = new Set();
-      endpoints.filter(e => e.startsWith('electrical.switches.bank.')).forEach(e => {
-        var match = e.match(/^electrical\.switches\.bank\.(.*)\..*$/);
-        if ((match) && (match.length == 2)) switchKeys.add(match[1]);
-      });
+    var switchPaths = new Set();
+    signalkClient.getAvailablePathsSync("^electrical\.switches\.bank\.(.+)\.(.+)\.state\.meta\.type$").forEach(path => {
+      console.log("%s %s", path, path.substr(0, (path.length - 6)));
+    });
+    switchBankPaths.forEach(key => {
+      var sbmatch = key.match(/^.*\.(.+)\.(\d+)\.state$/);
+      if ((sbmatch) && (sbmatch.length == 3)) {
+        console.log(sbmatch[1]);
+        if (!this.switchbanks.hasOwnProperty('' + sbmatch[1])) this.switchbanks['' + sbmatch[1]] = [];
+        this.switchbanks['' + sbmatch[1]].push(key);
+      } else {
+        this.switchbanks['misc'].push(key);
+      }
+    });
 
-      [...switchKeys].forEach(key => {
-        var sbmatch = key.match(/^(.+)\.(.+)$/);
-        if ((sbmatch) && (sbmatch.length == 3)) {
-          if (!this.switchbanks.hasOwnProperty('' + sbmatch[1])) this.switchbanks['' + sbmatch[1]] = [];
-          this.switchbanks['' + sbmatch[1]].push(key);
-        } else {
-          this.switchbanks['misc'].push(key);
-        }
-      });
-
-      this.switchmonitorwidget = PageUtils.createElement('div', 'switchmonitorwidget', null, null, container);
-      Object.keys(this.switchbanks).forEach(switchbank => {
-        this.switchmonitorwidget.appendChild(this.makeSwitchBank(switchbank, this.switchbanks[switchbank]));
-      });
+    this.switchmonitorwidget = PageUtils.createElement('div', 'switchmonitorwidget', null, null, container);
+    Object.keys(this.switchbanks).forEach(switchbank => {
+      this.switchmonitorwidget.appendChild(this.makeSwitchBank(switchbank, this.switchbanks[switchbank]));
     });
   }
 
