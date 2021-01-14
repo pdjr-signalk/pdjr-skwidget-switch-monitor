@@ -58,7 +58,8 @@ class SwitchMonitorWidget {
             
       this.signalkClient.onValue(channel.path + ".state", function(sbc,v) {
         var millis = Date.UTC() - Date.parse(v.timestamp);
-        if (millis > 150000) sbc.classList.add('expired'); else sbc.classList.remove('expired');
+        var timeout = (channel.meta.timeout)?channel.meta.timeout:5000;
+        if (millis > timeout) sbc.classList.add('expired'); else sbc.classList.remove('expired');
         if (v.value) { sbc.classList.add('on'); sbc.classList.remove('off'); } else { sbc.classList.add('off'); sbc.classList.remove('on'); }
       }.bind(this, switchbankChannelCell), (v) => v, false);
 
